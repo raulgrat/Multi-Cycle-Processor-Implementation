@@ -1,24 +1,16 @@
 `timescale 1ns / 1ps
 
-/*
-CPU Module
-
-Top Module for CPU.
-
-*/
-
 
 module CPU(
     input clk
     );
     
      
-    reg [15:0]  pc_q = 0;      // Program Counter
-    reg [31:0]  instruction_q; // Holds instruction binary 
-    reg [1:0]   state_q = 0;   // State of CPU
+    reg [15:0]  pc_q = 0;      
+    reg [31:0]  instruction_q; 
+    reg [1:0]   state_q = 0;   
     
-    // Instantiate decoder, Instruction Memory,
-    // Data Memory, Register File and ALU
+
     wire [31:0] read_data;
     InstructionMemory IM(.inst_address(pc_q), .read_data(read_data));
     reg [31:0] instruct;
@@ -47,22 +39,16 @@ module CPU(
     
     always@(posedge clk)
     begin
-        if(state_q == 0) begin // Fetch Stage
+        if(state_q == 0) begin 
             we <= 0;
             wedata <= 0;
-            // Read instruction from instruction memory
             instruction_q <= read_data;
-            // increment PC
             pc_q <= pc_q + 1;
-            // increment state
             state_q <= 1;
-        end else if(state_q == 1) begin  // Decode Stage       
-            // Instruction Decode and read data from register/memory
+        end else if(state_q == 1) begin     
             instruct <= instruction_q;
-            // store all data necessary for next stages in a register 
-            // This is done by instruct <= instruction_q as all the data ready to be sent for ALU ops
-            state_q <= 2;  //update state
-        end else if(state_q == 2) begin  // Execute Stage       
+            state_q <= 2; 
+        end else if(state_q == 2) begin     
             // Perform ALU operations
             if(opcode > 1) begin
                 op1 <= rdata1;

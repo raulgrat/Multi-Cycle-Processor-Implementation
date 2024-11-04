@@ -1,17 +1,11 @@
 `timescale 1ns / 1ps
-/*
-Instruction Module
-
-A 2-d register array with one read port
-*/
-
 
 module  InstructionMemory(
     input [15:0] inst_address,
     output [31:0] read_data
     );
     reg [31:0] ram [255:0];
-        // Initialize Instructions in the memory for testing
+       
     initial begin
         ram[0] <= 32'h2000_0004; // Store: Reg[0] -> Mem[4]
         ram[1] <= 32'h0000_0008; // LW: Reg[0] = 8
@@ -25,8 +19,6 @@ module  InstructionMemory(
         ram[9] <= 32'h2300_0008; // Store: Reg[3] -> Mem[8] = 24
     end
     
-    
-    
-    // Assign statement to read ram based on inst_address
+
     assign read_data = ram[inst_address];
 endmodule

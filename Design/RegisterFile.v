@@ -1,13 +1,5 @@
 `timescale 1ns / 1ps
 
-/*
-RegisterFile Module
-
-A 2-d register array with two read ports
-and one write port
-*/
-
-
 module  RegisterFile(
     input [4:0] read_address_0,
     input [4:0] read_address_1,
@@ -21,18 +13,13 @@ module  RegisterFile(
     reg [31:0] ram [255:0];
     integer i;
     
-    // Initialize the entire ram to zero
     initial begin
         for(i=0; i<256; i=i+1) begin
 //            ram[i] = ;
               ram[i] = 0;
         end
     end
-
-// Use assign statment to read data from ram 
-// based on read_address_1 and assign it to 
-// read_data_1. See example below   
-
+ 
     assign read_data_0 = ram[read_address_0];
     assign read_data_1 = ram[read_address_1];
     
